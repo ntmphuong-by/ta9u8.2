@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 8: TOURISM - Global Success 9 (Role-play Edition)</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0984e3;
+            --primary-dark: #00cec9;
+            --accent: #fdcb6e;
+            --text: #2d3436;
+            --bg: #dfe6e9;
+            --white: #ffffff;
+            --success: #00b894;
+            --error: #d63031;
+        }
+
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; display: flex; height: 100vh; background-color: var(--bg); color: var(--text); }
+
+        /* SIDEBAR */
+        .sidebar { width: 300px; background: var(--white); border-right: 1px solid #b2bec3; display: flex; flex-direction: column; flex-shrink: 0; z-index: 100; box-shadow: 2px 0 10px rgba(0,0,0,0.05); }
+        .logo { padding: 20px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; font-weight: 800; font-size: 1.4rem; display: flex; align-items: center; gap: 10px; }
+        .nav-list { flex: 1; overflow-y: auto; padding: 10px 0; }
+        .nav-item { padding: 15px 20px; cursor: pointer; transition: 0.2s; border-left: 5px solid transparent; font-weight: 600; color: #636e72; display: flex; justify-content: space-between; align-items: center; }
+        .nav-item:hover { background: #f1f2f6; color: var(--primary); }
+        .nav-item.active { background: #e3f2fd; border-left-color: var(--primary); color: var(--primary); }
+        .badge { background: #b2bec3; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem; }
+
+        /* CONTROLS */
+        .controls { padding: 20px; border-top: 1px solid #b2bec3; background: #f8f9fa; }
+        .toggle-row { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; cursor: pointer; user-select: none; }
+        .switch { width: 44px; height: 24px; background: #b2bec3; border-radius: 20px; position: relative; transition: 0.3s; }
+        .switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: white; border-radius: 50%; transition: 0.3s; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+        .toggle-row.active .switch { background: var(--success); }
+        .toggle-row.active .switch::after { transform: translateX(20px); }
+        
+        .btn-group { display: flex; gap: 10px; }
+        .btn { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s; font-size: 0.9rem; }
+        .btn-check { background: var(--success); color: white; }
+        .btn-check:hover { background: #00a884; transform: translateY(-2px); }
+        .btn-reset { background: var(--primary); color: white; }
+        .btn-reset:hover { background: #0973c5; transform: translateY(-2px); }
+
+        /* MAIN */
+        .main { flex: 1; overflow-y: auto; padding: 40px; scroll-behavior: smooth; }
+        .header-box { margin-bottom: 30px; }
+        .title { font-size: 2rem; margin: 0; color: var(--primary); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .subtitle { font-size: 1.1rem; color: #636e72; margin-top: 5px; font-style: italic; }
+
+        /* TRANSCRIPT BOX */
+        .dialogue-box { background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 30px; border: 1px solid #dfe6e9; }
+        .box-header { background: #f1f2f6; padding: 15px 25px; font-weight: 700; color: var(--text); border-bottom: 1px solid #dfe6e9; display: flex; justify-content: space-between; align-items: center; }
+        .play-btn { background: var(--primary); color: white; border: none; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+        .play-btn:hover { background: var(--primary-dark); }
+        
+        .box-body { padding: 20px; max-height: 400px; overflow-y: auto; }
+        .line { margin-bottom: 15px; padding: 10px 15px; border-radius: 8px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
+        .line:hover { background: #f8f9fa; border-color: #b2bec3; }
+        .line.active { background: #e3f2fd; border-left: 5px solid var(--primary); border-color: #e3f2fd; }
+        .char { font-weight: 800; color: var(--primary); margin-right: 5px; }
+        .vi-text { display: block; font-size: 0.95rem; color: #636e72; margin-top: 6px; padding-top: 6px; border-top: 1px dashed #dfe6e9; font-style: italic; display: none; }
+        .show-trans .vi-text { display: block; }
+
+        /* EXERCISES */
+        .card { background: white; border-radius: 12px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .card h3 { margin-top: 0; color: var(--primary); border-bottom: 2px solid #f1f2f6; padding-bottom: 15px; font-size: 1.3rem; }
+        
+        .question-row { margin-bottom: 20px; padding: 20px; background: #f8f9fa; border-radius: 10px; border: 1px solid #e2e8f0; transition: 0.3s; }
+        .question-row.correct { background: #e0f9f4; border-color: var(--success); border-left: 5px solid var(--success); }
+        .question-row.wrong { background: #ffeaea; border-color: var(--error); border-left: 5px solid var(--error); }
+
+        .q-text { font-weight: 600; font-size: 1.1rem; margin-bottom: 8px; color: #2d3436; }
+        .q-vi { font-size: 0.95rem; color: #636e72; font-style: italic; margin-bottom: 12px; display: none; }
+        .show-trans .q-vi { display: block; }
+
+        select.ans-select { width: 100%; padding: 12px; border: 2px solid #dfe6e9; border-radius: 8px; font-size: 1rem; color: #2d3436; background: white; cursor: pointer; outline: none; transition: 0.2s; }
+        select.ans-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(9, 132, 227, 0.1); }
+
+        .feedback { margin-top: 10px; font-weight: 700; font-size: 0.95rem; }
+        .fb-correct { color: var(--success); display: flex; align-items: center; gap: 5px; }
+        .fb-wrong { color: var(--error); display: flex; align-items: center; gap: 5px; }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #b2bec3; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #636e72; }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; height: auto; }
+            .sidebar { width: 100%; height: auto; }
+            .nav-list { max-height: 200px; }
+            .main { overflow: visible; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<aside class="sidebar">
+    <div class="logo"><i class="fas fa-plane-departure"></i> GS9 - UNIT 8</div>
+    <div class="nav-list" id="navList"></div>
+    <div class="controls">
+        <div class="toggle-row" onclick="toggleTranslation()">
+            <div class="switch" id="transSwitch"></div>
+            <span style="font-weight: 600;">Hiển thị dịch Tiếng Việt</span>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-check" onclick="checkAll()"><i class="fas fa-check-circle"></i> Chấm điểm</button>
+            <button class="btn btn-reset" onclick="resetSection()"><i class="fas fa-redo"></i> Làm lại</button>
+        </div>
+    </div>
+</aside>
+
+<main class="main" id="mainArea">
+    </main>
+
+<script>
+/* ==========================================================================
+   DỮ LIỆU ĐẦY ĐỦ TỪ SÁCH GIÁO KHOA UNIT 8
+   ========================================================================== */
+const unitData = [
+    {
+        id: "getting_started",
+        title: "1. Getting Started",
+        subtitle: "You've got a nice tan.",
+        dialogue: [
+            { c: "Tom", en: "Hi, An.", vi: "Chào An." },
+            { c: "An", en: "Hi, Tom. You've got a nice tan.", vi: "Chào Tom. Bạn có làn da rám nắng đẹp đấy." },
+            { c: "Tom", en: "Well, I've just got back from Bali.", vi: "À, tớ vừa đi Bali về." },
+            { c: "An", en: "Bali? Where is it?", vi: "Bali ư? Nó ở đâu vậy?" },
+            { c: "Tom", en: "It's in Indonesia. My family flew there for a holiday, and we spent most of the time on the beach. That's how I got this tan.", vi: "Nó ở Indonesia. Gia đình tớ bay đến đó nghỉ lễ, và dành phần lớn thời gian trên bãi biển. Đó là lý do tớ có làn da này." },
+            { c: "An", en: "Awesome. Tell me more about Bali.", vi: "Tuyệt quá. Kể thêm cho tớ về Bali đi." },
+            { c: "Tom", en: "Sure. It's an ideal destination for holidaymakers, especially those who love the sea.", vi: "Chắc chắn rồi. Đó là điểm đến lý tưởng cho người đi nghỉ mát, đặc biệt là những người yêu biển." },
+            { c: "An", en: "It must be beautiful!", vi: "Nó chắc hẳn phải đẹp lắm!" },
+            { c: "Tom", en: "Very. It's well-known for its natural beauty, sunny beaches, and terraced fields.", vi: "Rất đẹp. Nó nổi tiếng với vẻ đẹp tự nhiên, những bãi biển đầy nắng và ruộng bậc thang." },
+            { c: "An", en: "Is it expensive to travel there?", vi: "Du lịch đến đó có đắt không?" },
+            { c: "Tom", en: "Not really. My father was able to buy cheap air tickets and rent a cheap accommodation. He usually uses travel apps for our domestic and international holidays.", vi: "Không hẳn. Bố tớ đã mua được vé máy bay giá rẻ và thuê chỗ ở rẻ. Bố thường dùng các ứng dụng du lịch cho các kỳ nghỉ trong nước và quốc tế." },
+            { c: "An", en: "Where did you stay?", vi: "Các bạn đã ở đâu?" },
+            { c: "Tom", en: "We stayed in a three-star hotel which is just a ten-minute walk from the sea. Have you been somewhere for holiday?", vi: "Bọn tớ ở một khách sạn 3 sao chỉ cách biển 10 phút đi bộ. Bạn có đi đâu nghỉ lễ không?" },
+            { c: "An", en: "Yeah. Last year my family travelled to Da Nang. We ate different types of local food, and they all were so delicious. My brother said it was a perfect destination for food tourists.", vi: "Có. Năm ngoái gia đình tớ đi Đà Nẵng. Bọn tớ đã ăn nhiều loại món ăn địa phương, và tất cả đều rất ngon. Anh tớ nói đó là điểm đến hoàn hảo cho du khách yêu ẩm thực." },
+            { c: "Tom", en: "Yes, I love food tourism, too. There are also other types of tourism like shopping tourism or sports tourism.", vi: "Đúng vậy, tớ cũng yêu du lịch ẩm thực. Ngoài ra còn có các loại hình như du lịch mua sắm hay du lịch thể thao." },
+            { c: "An", en: "I didn't know that. Well, I'll try one of those someday.", vi: "Tớ không biết điều đó. Chà, tớ sẽ thử một trong số đó vào ngày nào đó." }
+        ],
+        exercises: [
+            {
+                title: "Ex 2. Read the conversation again and tick True (T) or False (F).",
+                qs: [
+                    { q: "1. Tom and An are talking about their holidays.", vi: "Tom và An đang nói chuyện về kỳ nghỉ của họ.", a: "True", opts: ["True", "False"] },
+                    { q: "2. Bali is especially interesting for mountain lovers.", vi: "Bali đặc biệt thú vị đối với những người yêu thích núi (Sai: yêu biển).", a: "False", opts: ["True", "False"] },
+                    { q: "3. People can use online apps for booking tickets and accommodation.", vi: "Mọi người có thể sử dụng các ứng dụng trực tuyến để đặt vé và chỗ ở.", a: "True", opts: ["True", "False"] },
+                    { q: "4. An did not enjoy some of Da Nang's local food.", vi: "An đã không thích một số món ăn địa phương của Đà Nẵng (Sai: delicious).", a: "False", opts: ["True", "False"] },
+                    { q: "5. Tom mentions some types of tourism.", vi: "Tom đề cập đến một số loại hình du lịch.", a: "True", opts: ["True", "False"] }
+                ]
+            },
+            {
+                title: "Ex 3. Match a word in A with a word in B.",
+                qs: [
+                    { q: "1. ideal (lý tưởng) goes with...", vi: "Ghép từ: ideal (lý tưởng) đi với...", a: "destination", opts: ["destination", "beauty", "holiday", "tourism", "food"] },
+                    { q: "2. natural (tự nhiên) goes with...", vi: "Ghép từ: natural (tự nhiên) đi với...", a: "beauty", opts: ["destination", "beauty", "holiday", "tourism", "food"] },
+                    { q: "3. domestic (nội địa) goes with...", vi: "Ghép từ: domestic (nội địa) đi với...", a: "holiday", opts: ["destination", "beauty", "holiday", "tourism", "food"] },
+                    { q: "4. shopping (mua sắm) goes with...", vi: "Ghép từ: shopping (mua sắm) đi với...", a: "tourism", opts: ["destination", "beauty", "holiday", "tourism", "food"] },
+                    { q: "5. local (địa phương) goes with...", vi: "Ghép từ: local (địa phương) đi với...", a: "food", opts: ["destination", "beauty", "holiday", "tourism", "food"] }
+                ]
+            },
+            {
+                title: "Ex 4. Complete sentences with words from the box.",
+                qs: [
+                    { q: "1. If you go on a ______, you can see wild animals in their natural habitat.", vi: "Nếu bạn đi một chuyến ______, bạn có thể nhìn thấy động vật hoang dã trong môi trường sống tự nhiên của chúng.", a: "safari", opts: ["safari", "sports tourism", "online apps", "destination", "domestic"] },
+                    { q: "2. Noi Bai Airport has two terminals: one for international flights and one for ______ flights.", vi: "Sân bay Nội Bài có hai nhà ga: một cho các chuyến bay quốc tế và một cho các chuyến bay ______.", a: "domestic", opts: ["safari", "sports tourism", "online apps", "destination", "domestic"] },
+                    { q: "3. You should learn how to use ______ for booking transportation and accommodation.", vi: "Bạn nên học cách sử dụng ______ để đặt phương tiện đi lại và chỗ ở.", a: "online apps", opts: ["safari", "sports tourism", "online apps", "destination", "domestic"] },
+                    { q: "4. ______ is travelling to watch a sports event.", vi: "______ là việc đi du lịch để xem một sự kiện thể thao.", a: "sports tourism", opts: ["safari", "sports tourism", "online apps", "destination", "domestic"] },
+                    { q: "5. Japan is a must-go ______ for me.", vi: "Nhật Bản là một ______ phải đến đối với tôi.", a: "destination", opts: ["safari", "sports tourism", "online apps", "destination", "domestic"] }
+                ]
+            },
+            {
+                title: "Ex 5. Quiz: How much do you know about tourism in Viet Nam?",
+                qs: [
+                    { q: "1. This ancient city in central Viet Nam used to be the capital of our country.", vi: "Thành phố cổ ở miền trung Việt Nam này từng là kinh đô của đất nước ta.", a: "Hue", opts: ["Hue", "Can Tho", "Da Lat", "Cao Bang", "Quang Ninh"] },
+                    { q: "2. This city in the South is famous for its floating market.", vi: "Thành phố ở miền Nam này nổi tiếng với chợ nổi.", a: "Can Tho", opts: ["Hue", "Can Tho", "Da Lat", "Cao Bang", "Quang Ninh"] },
+                    { q: "3. This central highland city usually holds a Flower Festival in December.", vi: "Thành phố cao nguyên miền trung này thường tổ chức Lễ hội Hoa vào tháng 12.", a: "Da Lat", opts: ["Hue", "Can Tho", "Da Lat", "Cao Bang", "Quang Ninh"] },
+                    { q: "4. This northern province has a famous waterfall (Ban Gioc).", vi: "Tỉnh phía bắc này có một thác nước nổi tiếng.", a: "Cao Bang", opts: ["Hue", "Can Tho", "Da Lat", "Cao Bang", "Quang Ninh"] },
+                    { q: "5. This province possesses a World Heritage Site, Ha Long Bay.", vi: "Tỉnh này sở hữu một Di sản Thế giới, Vịnh Hạ Long.", a: "Quang Ninh", opts: ["Hue", "Can Tho", "Da Lat", "Cao Bang", "Quang Ninh"] }
+                ]
+            }
+        ]
+    },
+    {
+        id: "closer_look_1",
+        title: "2. A Closer Look 1",
+        subtitle: "Vocabulary & Pronunciation",
+        dialogue: [
+            { c: "Note", en: "Stress in words ending in -ic and -ious: Stress usually falls on the syllable immediately BEFORE the suffix. (Example: fan'tastic, de'licious)", vi: "Trọng âm của các từ kết thúc bằng -ic và -ious: Trọng âm thường rơi vào âm tiết ngay TRƯỚC hậu tố đó." }
+        ],
+        exercises: [
+            {
+                title: "Ex 1. Match words with their explanations.",
+                qs: [
+                    { q: "1. package holiday", vi: "kỳ nghỉ trọn gói", a: "a vacation where a travel agent organises everything for you", opts: ["a vacation where a travel agent organises everything for you", "a trip where a traveller does everything on his/her own", "a plan of a journey", "accommodation provided in the home of a family", "a web platform which shows directions"] },
+                    { q: "2. self-guided tour", vi: "chuyến đi tự túc", a: "a trip where a traveller does everything on his/her own", opts: ["a vacation where a travel agent organises everything for you", "a trip where a traveller does everything on his/her own", "a plan of a journey", "accommodation provided in the home of a family", "a web platform which shows directions"] },
+                    { q: "3. trip itinerary", vi: "lịch trình chuyến đi", a: "a plan of a journey, including the route and the places that you visit", opts: ["a vacation where a travel agent organises everything for you", "a trip where a traveller does everything on his/her own", "a plan of a journey, including the route and the places that you visit", "accommodation provided in the home of a family", "a web platform which shows directions"] },
+                    { q: "4. homestay", vi: "ở nhà dân", a: "accommodation provided in the home of a family", opts: ["a vacation where a travel agent organises everything for you", "a trip where a traveller does everything on his/her own", "a plan of a journey", "accommodation provided in the home of a family", "a web platform which shows directions"] },
+                    { q: "5. Google Maps", vi: "bản đồ Google", a: "a web platform which shows directions", opts: ["a vacation where a travel agent organises everything for you", "a trip where a traveller does everything on his/her own", "a plan of a journey", "accommodation provided in the home of a family", "a web platform which shows directions"] }
+                ]
+            },
+            {
+                title: "Ex 2. Replace 'it' with a phrase from the box.",
+                qs: [
+                    { q: "1. If you want to go into a place to see what is inside, you have to buy it. (Answer: ______)", vi: "Nếu bạn muốn vào một nơi để xem bên trong có gì, bạn phải mua nó (vé vào cửa).", a: "entrance ticket", opts: ["entrance ticket", "ruinous site", "travel agency", "fixed itinerary", "smooth trip"] },
+                    { q: "2. The Colosseum in Rome is not in its original condition. You can see only parts of it. (Answer: ______)", vi: "Đấu trường La Mã không còn nguyên vẹn. Bạn chỉ có thể nhìn thấy một phần của nó (di tích đổ nát).", a: "ruinous site", opts: ["entrance ticket", "ruinous site", "travel agency", "fixed itinerary", "smooth trip"] },
+                    { q: "3. It takes care of everything for travellers. (Answer: ______)", vi: "Nó (công ty du lịch) lo liệu mọi thứ cho du khách.", a: "travel agency", opts: ["entrance ticket", "ruinous site", "travel agency", "fixed itinerary", "smooth trip"] },
+                    { q: "4. I don't like it because I cannot change anything: the time, the destination... (Answer: ______)", vi: "Tôi không thích nó (lịch trình cố định) vì tôi không thể thay đổi bất cứ điều gì: thời gian, điểm đến...", a: "fixed itinerary", opts: ["entrance ticket", "ruinous site", "travel agency", "fixed itinerary", "smooth trip"] },
+                    { q: "5. We had no trouble at all during it. Everything was OK. (Answer: ______)", vi: "Chúng tôi không gặp rắc rối gì trong suốt nó (chuyến đi suôn sẻ). Mọi thứ đều ổn.", a: "smooth trip", opts: ["entrance ticket", "ruinous site", "travel agency", "fixed itinerary", "smooth trip"] }
+                ]
+            },
+            {
+                title: "Ex 3. Complete sentences with words from the box.",
+                qs: [
+                    { q: "1. We'd like to go on a(n) ______ tour which will be interesting and within our budget.", vi: "Chúng tôi muốn đi một chuyến du lịch ______ (tự túc) thú vị và nằm trong ngân sách.", a: "self-guided", opts: ["entrance", "apps", "package", "self-guided", "itinerary"] },
+                    { q: "2. Lan sent us the ______ of her trip to Sa Pa for reference.", vi: "Lan đã gửi cho chúng tôi ______ (lịch trình) chuyến đi Sa Pa của cô ấy để tham khảo.", a: "itinerary", opts: ["entrance", "apps", "package", "self-guided", "itinerary"] },
+                    { q: "3. During the tour, we have to buy the ______ tickets for the Glass Museum.", vi: "Trong chuyến tham quan, chúng tôi phải mua vé ______ (vào cửa) cho Bảo tàng Kính.", a: "entrance", opts: ["entrance", "apps", "package", "self-guided", "itinerary"] },
+                    { q: "4. If you take a(n) ______ holiday, you have to follow a fixed itinerary.", vi: "Nếu bạn tham gia một kỳ nghỉ ______ (trọn gói), bạn phải tuân theo một lịch trình cố định.", a: "package", opts: ["entrance", "apps", "package", "self-guided", "itinerary"] },
+                    { q: "5. If you want to get information, download these ______.", vi: "Nếu bạn muốn lấy thông tin, hãy tải xuống các ______ (ứng dụng) này.", a: "apps", opts: ["entrance", "apps", "package", "self-guided", "itinerary"] }
+                ]
+            }
+        ]
+    },
+    {
+        id: "closer_look_2",
+        title: "3. A Closer Look 2",
+        subtitle: "Grammar: Relative Pronouns",
+        dialogue: [
+            { c: "Rule", en: "WHO refers to a person. WHICH refers to a thing. WHOSE refers to possession (belonging to).", vi: "WHO chỉ người. WHICH chỉ vật. WHOSE chỉ sự sở hữu (của ai đó)." }
+        ],
+        exercises: [
+            {
+                title: "Ex 2. Underline the correct relative pronoun.",
+                qs: [
+                    { q: "1. This is the brochure (which / who) provides the information you need.", vi: "Đây là cuốn brochure (cái mà) cung cấp thông tin bạn cần.", a: "which", opts: ["which", "who"] },
+                    { q: "2. ABC is the company (which / who) won the Best Travel Agency Award.", vi: "ABC là công ty (cái mà) đã giành giải thưởng Đại lý Du lịch Tốt nhất.", a: "which", opts: ["which", "who"] },
+                    { q: "3. The elders (which / who) are not good at using online apps prefer package tours.", vi: "Những người lớn tuổi (người mà) không giỏi sử dụng ứng dụng trực tuyến thích các tour trọn gói hơn.", a: "who", opts: ["which", "who"] },
+                    { q: "4. A hop-on hop-off bus (which / who) runs from here every hour is the fastest way.", vi: "Xe buýt hop-on hop-off (cái mà) chạy từ đây mỗi giờ là cách nhanh nhất.", a: "which", opts: ["which", "who"] },
+                    { q: "5. Food tourism is for tourists (which / who) want to explore the unique dishes.", vi: "Du lịch ẩm thực dành cho du khách (người mà) muốn khám phá các món ăn độc đáo.", a: "who", opts: ["which", "who"] }
+                ]
+            },
+            {
+                title: "Ex 3. Complete sentences with WHO or WHOSE.",
+                qs: [
+                    { q: "1. Mr Minh, ______ will guide us on our Cu Chi Tunnel tour, is on his way.", vi: "Ông Minh, (người mà) sẽ hướng dẫn chúng ta trong chuyến tham quan Địa đạo Củ Chi, đang trên đường đến.", a: "who", opts: ["who", "whose"] },
+                    { q: "2. This is the writer ______ book 'Travel on $50 a Day' is my favourite.", vi: "Đây là nhà văn (người mà có) cuốn sách 'Du lịch với 50 đô la một ngày' là cuốn yêu thích của tôi.", a: "whose", opts: ["who", "whose"] },
+                    { q: "3. My son, ______ is a huge fan of Taylor Swift, is on a music tour.", vi: "Con trai tôi, (người mà) là một fan hâm mộ lớn của Taylor Swift, đang đi tour âm nhạc.", a: "who", opts: ["who", "whose"] },
+                    { q: "4. Ha Giang, ______ beauty and history are appealing, is a must-go.", vi: "Hà Giang, (nơi có) vẻ đẹp và lịch sử hấp dẫn, là một điểm đến không thể bỏ qua.", a: "whose", opts: ["who", "whose"] },
+                    { q: "5. My father talks with the locals ______ stories are interesting.", vi: "Cha tôi nói chuyện với những người dân địa phương (người mà có) những câu chuyện thú vị.", a: "whose", opts: ["who", "whose"] }
+                ]
+            },
+            {
+                title: "Ex 4. Match clause A with clause B to make sentences.",
+                qs: [
+                    { q: "1. Don't forget to visit the National Air and Space Museum...", vi: "Đừng quên ghé thăm Bảo tàng Hàng không và Vũ trụ Quốc gia...", a: "d. whose breathtaking collection is a must-to-see.", opts: ["d. whose breathtaking collection is a must-to-see.", "e. who is arranging accommodation for our stay in Paris.", "c. which appeared in the film 'Jane Eyre'.", "b. who knows a lot about the history of this area?", "a. whose products are on display at the Handicraft Show."] },
+                    { q: "2. Yesterday I phoned Pierre...", vi: "Hôm qua tôi đã gọi cho Pierre...", a: "e. who is arranging accommodation for our stay in Paris.", opts: ["d. whose breathtaking collection is a must-to-see.", "e. who is arranging accommodation for our stay in Paris.", "c. which appeared in the film 'Jane Eyre'.", "b. who knows a lot about the history of this area?", "a. whose products are on display at the Handicraft Show."] },
+                    { q: "3. There, I could see the ruinous hall...", vi: "Ở đó, tôi có thể nhìn thấy sảnh đường đổ nát...", a: "c. which appeared in the film 'Jane Eyre'.", opts: ["d. whose breathtaking collection is a must-to-see.", "e. who is arranging accommodation for our stay in Paris.", "c. which appeared in the film 'Jane Eyre'.", "b. who knows a lot about the history of this area?", "a. whose products are on display at the Handicraft Show."] },
+                    { q: "4. Could you recommend a local tour guide...", vi: "Bạn có thể giới thiệu một hướng dẫn viên địa phương...", a: "b. who knows a lot about the history of this area?", opts: ["d. whose breathtaking collection is a must-to-see.", "e. who is arranging accommodation for our stay in Paris.", "c. which appeared in the film 'Jane Eyre'.", "b. who knows a lot about the history of this area?", "a. whose products are on display at the Handicraft Show."] },
+                    { q: "5. We were lucky to meet some artisans...", vi: "Chúng tôi may mắn được gặp một số nghệ nhân...", a: "a. whose products are on display at the Handicraft Show.", opts: ["d. whose breathtaking collection is a must-to-see.", "e. who is arranging accommodation for our stay in Paris.", "c. which appeared in the film 'Jane Eyre'.", "b. who knows a lot about the history of this area?", "a. whose products are on display at the Handicraft Show."] }
+                ]
+            }
+        ]
+    },
+    {
+        id: "communication",
+        title: "4. Communication",
+        subtitle: "Expressing Obligation & My Travel",
+        dialogue: [
+            { c: "Mother", en: "Lan, you must hurry up or we'll miss the train.", vi: "Lan, con phải nhanh lên nếu không chúng ta sẽ lỡ tàu." },
+            { c: "Lan", en: "Yes, Mum. I'm coming.", vi: "Vâng, mẹ. Con đến đây." },
+            { c: "Nick", en: "Is it necessary for us to wait in the queue?", vi: "Chúng ta có cần thiết phải xếp hàng không?" },
+            { c: "Stranger", en: "I'm sorry, it is.", vi: "Tôi xin lỗi, có đấy." }
+        ],
+        exercises: [
+            {
+                title: "Ex 3. Read about people's travels and complete the table.",
+                qs: [
+                    { q: "1. Nam's Accommodation:", vi: "Chỗ ở của Nam:", a: "homestay", opts: ["homestay", "three-star hotel", "guest house"] },
+                    { q: "2. Nam's Activities:", vi: "Hoạt động của Nam:", a: "swam in the sea, ate seafood", opts: ["swam in the sea, ate seafood", "visit cultural places", "visit historical places"] },
+                    { q: "3. Agi's Accommodation:", vi: "Chỗ ở của Agi:", a: "three-star hotel", opts: ["homestay", "three-star hotel", "guest house"] },
+                    { q: "4. Agi's Activities:", vi: "Hoạt động của Agi:", a: "visit cultural places, take a cruise", opts: ["swam in the sea", "visit cultural places, take a cruise", "visit historical places"] },
+                    { q: "5. Haruto's Accommodation:", vi: "Chỗ ở của Haruto:", a: "guest house", opts: ["homestay", "three-star hotel", "guest house"] },
+                    { q: "6. Haruto's Activities:", vi: "Hoạt động của Haruto:", a: "visiting historical places", opts: ["swam in the sea", "visit cultural places", "visiting historical places"] }
+                ]
+            }
+        ]
+    },
+    {
+        id: "skills_1",
+        title: "5. Skills 1",
+        subtitle: "Reading: Package vs Self-guided Tours",
+        dialogue: [
+            { c: "Text", en: "The two most popular types of tours now are package and self-guided tours. When you buy a package tour, a travel agency takes care of almost everything for you. You will get a notice about the places of your visit, the detailed itinerary, and the cost. They will protect you if something goes wrong during the trip. This type of holiday saves time and reduces stress for travellers... One disadvantage of this type is you have to follow a fixed itinerary.\n\nNowadays, more young people choose self-guided tours which require them to do everything on their own. They have to look for a destination, work out an itinerary, and estimate the cost. They then hunt for tickets and accommodation, usually homestay. This type of holiday may require people more time and effort, but it is cheaper and more flexible than a package holiday...", vi: "Hai loại hình du lịch phổ biến nhất hiện nay là tour trọn gói và tour tự túc. Khi bạn mua tour trọn gói, đại lý du lịch sẽ lo liệu hầu như mọi thứ cho bạn. Bạn sẽ nhận được thông báo về các địa điểm tham quan, lịch trình chi tiết và chi phí..." }
+        ],
+        exercises: [
+            {
+                title: "Ex 2. Match words with definitions.",
+                qs: [
+                    { q: "1. cost", vi: "Định nghĩa của 'cost' (chi phí) là gì?", a: "money spent on something", opts: ["money spent on something", "not changing", "look for", "happening without problems"] },
+                    { q: "2. fixed", vi: "Định nghĩa của 'fixed' (cố định) là gì?", a: "not changing", opts: ["money spent on something", "not changing", "look for", "happening without problems"] },
+                    { q: "3. hunt for", vi: "Định nghĩa của 'hunt for' (săn tìm) là gì?", a: "look for", opts: ["money spent on something", "not changing", "look for", "happening without problems"] },
+                    { q: "4. smooth", vi: "Định nghĩa của 'smooth' (trôi chảy) là gì?", a: "happening without problems", opts: ["money spent on something", "not changing", "look for", "happening without problems"] }
+                ]
+            },
+            {
+                title: "Ex 3. Read the passage and answer questions.",
+                qs: [
+                    { q: "1. What can a package tour save you?", vi: "Tour trọn gói có thể giúp bạn tiết kiệm điều gì?", a: "time and reduces stress", opts: ["time and reduces stress", "money", "luggage space"] },
+                    { q: "2. What is a disadvantage of a package tour?", vi: "Nhược điểm của tour trọn gói là gì?", a: "follow a fixed itinerary", opts: ["follow a fixed itinerary", "unsafe", "expensive"] },
+                    { q: "3. What is an advantage of self-guided tours?", vi: "Ưu điểm của tour tự túc là gì?", a: "cheaper and more flexible", opts: ["cheaper and more flexible", "agency helps you", "no planning needed"] },
+                    { q: "4. What skill should you have for self-guided tours?", vi: "Bạn nên có kỹ năng gì khi đi tour tự túc?", a: "good at using apps", opts: ["good at using apps", "speaking languages", "driving"] }
+                ]
+            }
+        ]
+    },
+    {
+        id: "skills_2",
+        title: "6. Skills 2",
+        subtitle: "Listening: Haworth and the Brontes",
+        dialogue: [
+            { c: "Guide", en: "Welcome to our tour to Haworth. The trip will take 4 hours. We will visit the home of the Bronte sisters, who wrote Jane Eyre. Jane Eyre is a famous book. At Haworth, we will see the Brontes' house, their school, and the church. The tour includes an entrance ticket to the house. The Brontes lived here 200 years ago. The main street of the village has witnessed little change over time.", vi: "Chào mừng đến với chuyến tham quan Haworth của chúng tôi. Chuyến đi sẽ mất 4 giờ. Chúng ta sẽ thăm nhà của các chị em nhà Bronte, những người đã viết Jane Eyre..." }
+        ],
+        exercises: [
+            {
+                title: "Ex 2. Listen and complete the missing information.",
+                qs: [
+                    { q: "1. Trip will take: ______ hours", vi: "Chuyến đi sẽ mất: ______ giờ.", a: "4", opts: ["4", "5", "3", "6"] },
+                    { q: "2. Jane Eyre is a ______.", vi: "Jane Eyre là một ______.", a: "book", opts: ["book", "movie", "song"] },
+                    { q: "3. At Haworth, we see house, school and ______.", vi: "Tại Haworth, chúng ta thấy nhà, trường học và ______.", a: "church", opts: ["church", "museum", "park"] },
+                    { q: "4. The tour includes ______ ticket to the house.", vi: "Chuyến tham quan bao gồm vé ______ vào nhà.", a: "entrance", opts: ["entrance", "bus", "train"] },
+                    { q: "5. The Brontes lived here ______ years ago.", vi: "Nhà Bronte đã sống ở đây ______ năm trước.", a: "200", opts: ["200", "100", "50"] },
+                    { q: "6. The main street has witnessed little ______.", vi: "Con đường chính đã chứng kiến ít sự ______.", a: "change", opts: ["change", "traffic", "people"] }
+                ]
+            }
+        ]
+    },
+    {
+        id: "looking_back",
+        title: "7. Looking Back",
+        subtitle: "Review Vocabulary & Grammar",
+        dialogue: [
+            { c: "System", en: "Let's review the vocabulary and grammar of Unit 8.", vi: "Hãy cùng ôn tập từ vựng và ngữ pháp của Bài 8." }
+        ],
+        exercises: [
+            {
+                title: "Ex 1. Choose the correct answer A, B, C, or D.",
+                qs: [
+                    { 
+                        q: "1. If you are travelling abroad for the first time, it's better to look for a good travel ______ to arrange everything for you.", 
+                        vi: "Nếu bạn đi du lịch nước ngoài lần đầu, tốt hơn là nên tìm một ______ du lịch tốt để sắp xếp mọi thứ cho bạn.", 
+                        a: "agency", 
+                        opts: ["agency", "budget", "tourism", "homestay"] 
+                    },
+                    { 
+                        q: "2. Many ______ buildings have become UNESCO World Heritage Sites.", 
+                        vi: "Nhiều tòa nhà ______ đã trở thành Di sản Thế giới được UNESCO công nhận.", 
+                        a: "ruinous", 
+                        opts: ["ruinous", "modern", "domestic", "international"] 
+                    },
+                    { 
+                        q: "3. Young people are usually good at ______ for cheap transportation and accommodation.", 
+                        vi: "Giới trẻ thường giỏi ______ phương tiện đi lại và chỗ ở giá rẻ.", 
+                        a: "hunting", 
+                        opts: ["hunting", "buying", "booking", "applying"] 
+                    },
+                    { 
+                        q: "4. Nowadays, people can travel on their own to new places by using ______.", 
+                        vi: "Ngày nay, mọi người có thể tự đi du lịch đến những nơi mới bằng cách sử dụng ______.", 
+                        a: "Google Maps", 
+                        opts: ["Google Maps", "tours", "earphones", "entrance tickets"] 
+                    },
+                    { 
+                        q: "5. ______ is for people who love trying different local dishes.", 
+                        vi: "______ dành cho những người thích thử các món ăn địa phương khác nhau.", 
+                        a: "Food tourism", 
+                        opts: ["Food tourism", "Domestic tourism", "Ecotourism", "Shopping tourism"] 
+                    }
+                ]
+            },
+            {
+                title: "Ex 2. Fill in each blank with a suitable word (First letter given).",
+                qs: [
+                    { 
+                        q: "1. Would you like to go on an international or a d______ tour?", 
+                        vi: "Bạn muốn đi một chuyến du lịch quốc tế hay ______ (nội địa)?", 
+                        a: "domestic", 
+                        opts: ["domestic", "distant", "daily", "dangerous"] 
+                    },
+                    { 
+                        q: "2. Can I make a small change to this itinerary? - I'm afraid not. It's f______.", 
+                        vi: "Tôi có thể thay đổi nhỏ lịch trình này không? - Tôi e là không. Nó đã ______ (cố định) rồi.", 
+                        a: "fixed", 
+                        opts: ["fixed", "fun", "fast", "flexible"] 
+                    },
+                    { 
+                        q: "3. Thanks to her skills with a c______, she was able to buy cheap tickets to Quy Nhon.", 
+                        vi: "Nhờ các kỹ năng với ______ (máy tính), cô ấy đã có thể mua vé giá rẻ đi Quy Nhơn.", 
+                        a: "computer", 
+                        opts: ["computer", "camera", "compass", "calculator"] 
+                    },
+                    { 
+                        q: "4. They are not experienced enough to go on a s______ tour. They need an adult to go with them.", 
+                        vi: "Họ chưa đủ kinh nghiệm để đi một chuyến du lịch ______ (tự túc). Họ cần một người lớn đi cùng.", 
+                        a: "self-guided", 
+                        opts: ["self-guided", "safe", "simple", "slow"] 
+                    },
+                    { 
+                        q: "5. What did you enjoy most on your tour to Sa Pa? - The n______ beauty of the mountains and valleys.", 
+                        vi: "Bạn thích điều gì nhất trong chuyến đi Sa Pa? - Vẻ đẹp ______ (tự nhiên) của núi và thung lũng.", 
+                        a: "natural", 
+                        opts: ["natural", "nice", "new", "near"] 
+                    }
+                ]
+            },
+            {
+                title: "Ex 3. Use a relative pronoun (which, who, whose) to complete sentences.",
+                qs: [
+                    { 
+                        q: "1. Excuse me, could you show me a souvenir shop ______ sells small-size paintings of this city?", 
+                        vi: "Xin lỗi, bạn có thể chỉ cho tôi một cửa hàng lưu niệm ______ bán những bức tranh khổ nhỏ về thành phố này không?", 
+                        a: "which", 
+                        opts: ["which", "who", "whose", "where"] 
+                    },
+                    { 
+                        q: "2. We can ask my uncle ______ has a lot of experience in organising tours.", 
+                        vi: "Chúng ta có thể hỏi chú tôi, ______ có nhiều kinh nghiệm trong việc tổ chức các chuyến tham quan.", 
+                        a: "who", 
+                        opts: ["who", "which", "whose", "whom"] 
+                    },
+                    { 
+                        q: "3. A visa is a stamp or mark in your passport ______ allows you to enter or leave a foreign country.", 
+                        vi: "Visa là một con dấu hoặc ký hiệu trong hộ chiếu ______ cho phép bạn nhập cảnh hoặc xuất cảnh một quốc gia nước ngoài.", 
+                        a: "which", 
+                        opts: ["which", "who", "whose", "when"] 
+                    },
+                    { 
+                        q: "4. I'm lost. The hotel I'm staying in is a white multi-storey one ______ name is Islander Hotel.", 
+                        vi: "Tôi bị lạc. Khách sạn tôi đang ở là một tòa nhà trắng nhiều tầng ______ tên là Khách sạn Islander.", 
+                        a: "whose", 
+                        opts: ["whose", "which", "who", "that"] 
+                    },
+                    { 
+                        q: "5. The police officer is talking to the tourist ______ passport is missing.", 
+                        vi: "Viên cảnh sát đang nói chuyện với du khách ______ hộ chiếu bị mất.", 
+                        a: "whose", 
+                        opts: ["whose", "who", "which", "whom"] 
+                    }
+                ]
+            },
+            {
+                title: "Ex 4. Combine each pair of sentences using a relative pronoun.",
+                qs: [
+                    { 
+                        q: "1. My family spent four days in India. Its culture is unique.", 
+                        vi: "Gia đình tôi đã dành bốn ngày ở Ấn Độ. Văn hóa của nó rất độc đáo.", 
+                        a: "My family spent four days in India, whose culture is unique.", 
+                        opts: [
+                            "My family spent four days in India, whose culture is unique.",
+                            "My family spent four days in India which culture is unique.",
+                            "My family spent four days in India, who culture is unique.",
+                            "My family spent four days in India where culture is unique."
+                        ] 
+                    },
+                    { 
+                        q: "2. Organising self-guided tours helps develop personal skills. They are important for everybody.", 
+                        vi: "Việc tổ chức các chuyến du lịch tự túc giúp phát triển các kỹ năng cá nhân. Chúng rất quan trọng đối với mọi người.", 
+                        a: "Organising self-guided tours helps develop personal skills, which are important for everybody.", 
+                        opts: [
+                            "Organising self-guided tours helps develop personal skills, which are important for everybody.",
+                            "Organising self-guided tours helps develop personal skills who are important for everybody.",
+                            "Organising self-guided tours helps develop personal skills, whose are important for everybody.",
+                            "Organising self-guided tours helps develop personal skills where are important for everybody."
+                        ] 
+                    },
+                    { 
+                        q: "3. Russel stayed in a hotel in Bui Vien Street. It is one of the best streets for foreign tourists.", 
+                        vi: "Russel đã ở tại một khách sạn trên phố Bùi Viện. Đó là một trong những con phố tốt nhất cho khách du lịch nước ngoài.", 
+                        a: "Russel stayed in a hotel in Bui Vien Street, which is one of the best streets for foreign tourists.", 
+                        opts: [
+                            "Russel stayed in a hotel in Bui Vien Street, which is one of the best streets for foreign tourists.",
+                            "Russel stayed in a hotel in Bui Vien Street who is one of the best streets for foreign tourists.",
+                            "Russel stayed in a hotel in Bui Vien Street whose is one of the best streets for foreign tourists.",
+                            "Russel stayed in a hotel in Bui Vien Street, where is one of the best streets for foreign tourists."
+                        ] 
+                    },
+                    { 
+                        q: "4. After the Muay Thai Show, my sons talked to the artists. They admired their performance so much.", 
+                        vi: "Sau buổi biểu diễn Muay Thái, các con trai tôi đã nói chuyện với các nghệ sĩ. Chúng rất ngưỡng mộ màn trình diễn của họ.", 
+                        a: "After the Muay Thai Show, my sons talked to the artists whose performance they admired so much.", 
+                        opts: [
+                            "After the Muay Thai Show, my sons talked to the artists whose performance they admired so much.",
+                            "After the Muay Thai Show, my sons talked to the artists who performance they admired so much.",
+                            "After the Muay Thai Show, my sons talked to the artists which performance they admired so much.",
+                            "After the Muay Thai Show, my sons talked to the artists, who performance they admired so much."
+                        ] 
+                    },
+                    { 
+                        q: "5. We participated in a lot of activities with the local people. They were friendly and helpful.", 
+                        vi: "Chúng tôi đã tham gia rất nhiều hoạt động với người dân địa phương. Họ rất thân thiện và hay giúp đỡ.", 
+                        a: "We participated in a lot of activities with the local people, who were friendly and helpful.", 
+                        opts: [
+                            "We participated in a lot of activities with the local people, who were friendly and helpful.",
+                            "We participated in a lot of activities with the local people, which were friendly and helpful.",
+                            "We participated in a lot of activities with the local people whose were friendly and helpful.",
+                            "We participated in a lot of activities with the local people where were friendly and helpful."
+                        ] 
+                    }
+                ]
+            }
+        ]
+    }
+];
+
+// --- LOGIC ---
+let currentIdx = 0;
+let showTranslation = false;
+
+function init() {
+    renderNav();
+    renderSection(0);
+}
+
+function renderNav() {
+    const nav = document.getElementById('navList');
+    nav.innerHTML = '';
+    unitData.forEach((u, i) => {
+        const div = document.createElement('div');
+        div.className = `nav-item ${i === currentIdx ? 'active' : ''}`;
+        div.innerHTML = `${u.title} <span class="badge">${countQ(u)} câu</span>`;
+        div.onclick = () => { currentIdx = i; renderNav(); renderSection(i); };
+        nav.appendChild(div);
+    });
+}
+
+function countQ(u) { return u.exercises ? u.exercises.reduce((acc, e) => acc + e.qs.length, 0) : 0; }
+
+function renderSection(idx) {
+    const u = unitData[idx];
+    const main = document.getElementById('mainArea');
+    main.innerHTML = '';
+
+    // Header
+    const hBox = document.createElement('div');
+    hBox.className = 'header-box';
+    hBox.innerHTML = `<h1 class="title">${u.title}</h1><div class="subtitle">${u.subtitle}</div>`;
+    main.appendChild(hBox);
+
+    // Dialogue
+    if (u.dialogue && u.dialogue.length > 0) {
+        const box = document.createElement('div');
+        box.className = 'dialogue-box';
+        box.innerHTML = `
+            <div class="box-header">
+                <span><i class="fas fa-headphones-alt"></i> HỘI THOẠI & KỊCH BẢN (AI Voice)</span>
+                <button class="play-btn" onclick="playAudio(${idx})"><i class="fas fa-play"></i> Nghe</button>
+            </div>
+            <div class="box-body" id="tsBody"></div>
+        `;
+        main.appendChild(box);
+        const body = box.querySelector('.box-body');
+        u.dialogue.forEach((line, i) => {
+            const row = document.createElement('div');
+            row.className = 'line';
+            row.id = `line-${i}`;
+            row.onclick = () => speak(line.en, line.c);
+            row.innerHTML = `<div><span class="char">${line.c}:</span> ${line.en}</div><div class="vi-text">${line.vi}</div>`;
+            body.appendChild(row);
+        });
+    }
+
+    // Exercises
+    if (u.exercises) {
+        u.exercises.forEach((ex, exIdx) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `<h3>${ex.title}</h3>`;
+            
+            ex.qs.forEach((q, qIdx) => {
+                const row = document.createElement('div');
+                row.className = 'question-row';
+                row.id = `q-${exIdx}-${qIdx}`;
+                
+                // Shuffle
+                const shuffled = [...q.opts].sort(() => Math.random() - 0.5);
+                const optsHtml = shuffled.map(o => `<option value="${o}">${o}</option>`).join('');
+
+                row.innerHTML = `
+                    <div class="q-text">${q.q}</div>
+                    <div class="q-vi">${q.vi}</div>
+                    <select class="ans-select" id="ans-${exIdx}-${qIdx}" data-correct="${q.a}">
+                        <option value="">-- Chọn đáp án --</option>
+                        ${optsHtml}
+                    </select>
+                    <div class="feedback" id="fb-${exIdx}-${qIdx}"></div>
+                `;
+                card.appendChild(row);
+            });
+            main.appendChild(card);
+        });
+    }
+    updateTrans();
+}
+
+function toggleTranslation() {
+    showTranslation = !showTranslation;
+    const btn = document.querySelector('.toggle-row');
+    if(showTranslation) btn.classList.add('active'); else btn.classList.remove('active');
+    updateTrans();
+}
+
+function updateTrans() {
+    const main = document.getElementById('mainArea');
+    if(showTranslation) main.classList.add('show-trans'); else main.classList.remove('show-trans');
+}
+
+function checkAll() {
+    const u = unitData[currentIdx];
+    if(!u.exercises) return;
+    let total = 0, correct = 0;
+    
+    u.exercises.forEach((ex, exIdx) => {
+        ex.qs.forEach((q, qIdx) => {
+            total++;
+            const row = document.getElementById(`q-${exIdx}-${qIdx}`);
+            const sel = document.getElementById(`ans-${exIdx}-${qIdx}`);
+            const fb = document.getElementById(`fb-${exIdx}-${qIdx}`);
+            const userAns = sel.value;
+            
+            row.classList.remove('correct', 'wrong');
+            if(userAns === q.a) {
+                correct++;
+                row.classList.add('correct');
+                fb.innerHTML = `<span class="fb-correct"><i class="fas fa-check"></i> Chính xác!</span>`;
+            } else {
+                row.classList.add('wrong');
+                fb.innerHTML = `<span class="fb-wrong"><i class="fas fa-times"></i> Sai rồi. Đáp án đúng: ${q.a}</span>`;
+            }
+        });
+    });
+    alert(`Bạn làm đúng ${correct}/${total} câu.`);
+}
+
+function resetSection() { renderSection(currentIdx); }
+
+// AI VOICE LOGIC
+function speak(text, char) {
+    window.speechSynthesis.cancel();
+    const utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'en-US';
+    
+    // Male characters list for deep voice
+    const males = ['Tom', 'Nick', 'Father', 'Dad', 'Nam', 'Stranger', 'Guide', 'Pierre', 'Haruto', 'Phong', 'Mark', 'Mr. Minh'];
+    if(males.some(m => char.includes(m))) {
+        utt.pitch = 0.8; // Deep
+        utt.rate = 0.95;
+    } else {
+        utt.pitch = 1.15; // High (Female/Child)
+        utt.rate = 1.0;
+    }
+    window.speechSynthesis.speak(utt);
+}
+
+async function playAudio(idx) {
+    const lines = unitData[idx].dialogue;
+    if(!lines) return;
+    window.speechSynthesis.cancel();
+    
+    for(let i=0; i<lines.length; i++) {
+        const line = lines[i];
+        document.querySelectorAll('.line').forEach(l => l.classList.remove('active'));
+        const el = document.getElementById(`line-${i}`);
+        if(el) { el.classList.add('active'); el.scrollIntoView({behavior: "smooth", block: "center"}); }
+        
+        const utt = new SpeechSynthesisUtterance(line.en);
+        utt.lang = 'en-US';
+        const males = ['Tom', 'Nick', 'Father', 'Dad', 'Nam', 'Stranger', 'Guide', 'Pierre', 'Haruto', 'Phong', 'Mark', 'Mr. Minh'];
+        if(males.some(m => line.c.includes(m))) { utt.pitch = 0.8; utt.rate = 0.95; } else { utt.pitch = 1.15; utt.rate = 1.0; }
+        
+        await new Promise(r => {
+            utt.onend = r;
+            window.speechSynthesis.speak(utt);
+        });
+        await new Promise(r => setTimeout(r, 400));
+    }
+    document.querySelectorAll('.line').forEach(l => l.classList.remove('active'));
+}
+
+// Start
+init();
+</script>
+</body>
+</html>
